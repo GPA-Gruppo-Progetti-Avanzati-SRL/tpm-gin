@@ -1,0 +1,7 @@
+.idea/
+target/
+sonar-scan.sh
+.scannerwork/
+/config.test.yml
+/cmds/azt-cmd/azt-cmd.yml
+.DS_Store
