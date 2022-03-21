@@ -3,6 +3,7 @@ package resource
 import (
 	"crypto/tls"
 	"fmt"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	dto "github.com/prometheus/client_model/go"
@@ -10,7 +11,6 @@ import (
 	"github.com/rs/zerolog/log"
 	"net/http"
 	"strings"
-	"tpm-gin/httpsrv"
 )
 
 const (

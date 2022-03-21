@@ -2,10 +2,10 @@ package example_4
 
 import (
 	"fmt"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
 	"net/http"
-	"tpm-gin/httpsrv"
 )
 
 /*

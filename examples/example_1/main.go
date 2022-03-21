@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
 	"github.com/dn365/gin-zerolog"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
@@ -10,7 +11,6 @@ import (
 	jaegercfg "github.com/uber/jaeger-client-go/config"
 	"github.com/uber/jaeger-lib/metrics"
 	"io"
-	"tpm-gin/middleware"
 )
 
 func main() {

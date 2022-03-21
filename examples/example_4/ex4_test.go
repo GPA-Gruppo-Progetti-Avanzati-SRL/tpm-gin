@@ -1,13 +1,13 @@
 package example_4_test
 
 import (
+	_ "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/examples/example_4"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
 	"testing"
 	"time"
-	_ "tpm-gin/examples/example_4"
-	"tpm-gin/httpsrv"
 )
 
 func TestNewServer(t *testing.T) {

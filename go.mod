@@ -1,4 +1,4 @@
-module tpm-gin
+module github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin
 
 go 1.17
 

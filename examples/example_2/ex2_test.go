@@ -2,12 +2,12 @@ package example_2_test
 
 import (
 	"fmt"
+	_ "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/examples/example_2"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
 	"io/ioutil"
 	"net/http"
 	"testing"
 	"time"
-	_ "tpm-gin/examples/example_2"
-	"tpm-gin/httpsrv"
 )
 
 func TestNewServer(t *testing.T) {

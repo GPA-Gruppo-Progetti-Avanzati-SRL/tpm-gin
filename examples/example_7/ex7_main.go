@@ -3,6 +3,9 @@ package main
 import (
 	"bytes"
 	_ "embed"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
+	_ "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv/resource"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
 	"github.com/opentracing/opentracing-go"
 	"github.com/rs/zerolog/log"
 	"github.com/uber/jaeger-client-go"
@@ -14,9 +17,6 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-	"tpm-gin/httpsrv"
-	_ "tpm-gin/httpsrv/resource"
-	"tpm-gin/middleware"
 )
 
 type AppConfig struct {

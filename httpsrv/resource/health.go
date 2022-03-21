@@ -1,10 +1,10 @@
 package resource
 
 import (
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
 	"net/http"
-	"tpm-gin/httpsrv"
 )
 
 func init() {

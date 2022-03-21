@@ -3,10 +3,10 @@ package example_6_test
 import (
 	"bytes"
 	_ "embed"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
 	"gitlab.alm.poste.it/go/configuration"
 	"testing"
-	"tpm-gin/httpsrv"
-	"tpm-gin/middleware"
 )
 
 type AppConfig struct {
