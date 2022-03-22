@@ -39,14 +39,14 @@ type ErrorHandler struct {
 }
 
 func NewErrorHandler(cfg interface{}) MiddlewareHandler {
-	var tcfg ErrorHandlerConfig
+	var tcfg *ErrorHandlerConfig
 	var ok bool
-	if tcfg, ok = cfg.(ErrorHandlerConfig); ok {
-		tcfg = DefaultErrorHandlerConfig
+	if tcfg, ok = cfg.(*ErrorHandlerConfig); !ok {
+		tcfg = &DefaultErrorHandlerConfig
 	}
 
 	return &ErrorHandler{
-		config: &tcfg,
+		config: tcfg,
 	}
 }
 
