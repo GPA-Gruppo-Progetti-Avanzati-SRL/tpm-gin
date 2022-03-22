@@ -1,35 +1,52 @@
 package middleware
 
 import (
-	"errors"
 	"github.com/gin-gonic/gin"
-	"github.com/rs/zerolog/log"
 )
+
+type MwHandlerRegistryConfig struct {
+	ErrCfg     *ErrorHandlerConfig           `yaml:"gin-mw-error" mapstructure:"gin-mw-error" json:"gin-mw-error"`
+	MetricsCfg *PromHttpMetricsHandlerConfig `yaml:"gin-mw-metrics" mapstructure:"gin-mw-metrics" json:"gin-mw-metrics"`
+	TraceCfg   *TracingHandlerConfig         `yaml:"gin-mw-tracing" mapstructure:"gin-mw-tracing" json:"gin-mw-tracing"`
+}
 
 type HandlerFactory func(interface{}) MiddlewareHandler
 
-var f = map[string]HandlerFactory{
+var handlerFactoryMap = map[string]HandlerFactory{
 	MiddlewareErrorId:           NewErrorHandler,
 	MiddlewareTracingId:         NewTracingHandler,
 	MiddlewareMetricsPromHttpId: NewPromHttpMetricsHandler,
 }
 
 type MwHandlerRegistry map[string]gin.HandlerFunc
-type MwHandlerRegistryConfig = map[string]interface{}
 
 var registry MwHandlerRegistry = make(map[string]gin.HandlerFunc)
 
-func InitializeHandlerRegistry(registryConfig map[string]interface{}) error {
+func InitializeHandlerRegistry(registryConfig *MwHandlerRegistryConfig) error {
 
-	for n, i := range registryConfig {
-		if f, ok := f[n]; ok {
-			registry[n] = f(i).HandleFunc()
-		} else {
-			err := errors.New("cannot find factory for middleware handler of id: " + n)
-			log.Error().Err(err).Send()
-			return err
-		}
+	if registryConfig.ErrCfg != nil {
+		registry[MiddlewareErrorId] = NewErrorHandler(registryConfig.ErrCfg).HandleFunc()
 	}
+
+	if registryConfig.TraceCfg != nil {
+		registry[MiddlewareTracingId] = NewTracingHandler(registryConfig.TraceCfg).HandleFunc()
+	}
+
+	if registryConfig.MetricsCfg != nil {
+		registry[MiddlewareMetricsPromHttpId] = NewPromHttpMetricsHandler(registryConfig.MetricsCfg).HandleFunc()
+	}
+
+	/*
+		for n, i := range registryConfig {
+			if hanlderFactory, ok := handlerFactoryMap[n]; ok {
+				registry[n] = hanlderFactory(i).HandleFunc()
+			} else {
+				err := errors.New("cannot find factory for middleware handler of id: " + n)
+				log.Error().Err(err).Send()
+				return err
+			}
+		}
+	*/
 
 	return nil
 }

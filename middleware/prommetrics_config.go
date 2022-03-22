@@ -25,11 +25,11 @@ type PromHttpMetricsHandlerConfigBuilder struct {
 /*
 func (cb *PromHttpMetricsHandlerConfigBuilder) WithEndpoint(endpoint string) *PromHttpMetricsHandlerConfigBuilder {
 
-	f := func(c *PromHttpMetricsHandlerConfig) {
+	handlerFactoryMap := func(c *PromHttpMetricsHandlerConfig) {
 		c.Endpoint = endpoint
 	}
 
-	cb.opts = append(cb.opts, f)
+	cb.opts = append(cb.opts, handlerFactoryMap)
 	return cb
 }
 */

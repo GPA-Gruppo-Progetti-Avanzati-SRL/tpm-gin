@@ -10,7 +10,7 @@ import (
 
 type AppConfig struct {
 	Http       httpsrv.Config
-	MwRegistry map[string]interface{} `yaml:"mw-handler-registry" mapstructure:"mw-handler-registry"`
+	MwRegistry *middleware.MwHandlerRegistryConfig `yaml:"mw-handler-registry" mapstructure:"mw-handler-registry"`
 }
 
 func (m *AppConfig) PostProcess() error {
