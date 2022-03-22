@@ -1,11 +1,10 @@
 package example_6_test
 
 import (
-	"bytes"
 	_ "embed"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
-	"gitlab.alm.poste.it/go/configuration"
+
 	"testing"
 )
 
@@ -18,6 +17,7 @@ func (m *AppConfig) PostProcess() error {
 	return nil
 }
 
+/*
 func (m *AppConfig) GetDefaults() []configuration.VarDefinition {
 
 	vd := make([]configuration.VarDefinition, 0, 20)
@@ -25,6 +25,7 @@ func (m *AppConfig) GetDefaults() []configuration.VarDefinition {
 	vd = append(vd, middleware.GetConfigDefaults("config.mw-handler-registry")...)
 	return vd
 }
+*/
 
 //go:embed config.yml
 var configFile []byte
@@ -33,14 +34,17 @@ func TestConfigFile(t *testing.T) {
 
 	appCfg := &AppConfig{}
 
-	_, err := configuration.NewConfiguration(
-		configuration.WithType("yaml"),
-		configuration.WithName("tpm-gin"),
-		configuration.WithReader(bytes.NewBuffer(configFile)),
-		configuration.WithData(appCfg))
-	if nil != err {
-		t.Fatal(err)
-	}
+	/*
+			_, err := configuration.NewConfiguration(
+				configuration.WithType("yaml"),
+				configuration.WithName("tpm-gin"),
+				configuration.WithReader(bytes.NewBuffer(configFile)),
+				configuration.WithData(appCfg))
+
+		if nil != err {
+			t.Fatal(err)
+		}
+	*/
 
 	t.Logf("%+v\n", appCfg)
 

@@ -3,7 +3,6 @@ package httpsrv
 import (
 	"embed"
 	"github.com/gin-gonic/gin"
-	"gitlab.alm.poste.it/go/configuration"
 	"time"
 )
 
@@ -56,6 +55,7 @@ var DefaultConfig = Config{
 	ServerMode: DefaultServerMode,
 }
 
+/*
 func GetConfigDefaults() []configuration.VarDefinition {
 	return []configuration.VarDefinition{
 		{"config.http.bind-address", DefaultBindAddress, "host reference"},
@@ -65,6 +65,7 @@ func GetConfigDefaults() []configuration.VarDefinition {
 		{"config.http.server-mode", DefaultServerMode, "modalita' di lavoro server gin"},
 	}
 }
+*/
 
 // ConfigBuilder
 //   WithBindAddress(string)                   bind address for this httpsrv

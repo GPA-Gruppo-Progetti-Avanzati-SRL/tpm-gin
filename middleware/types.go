@@ -2,8 +2,6 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"gitlab.alm.poste.it/go/configuration"
-	"strings"
 )
 
 type MiddlewareHandler interface {
@@ -13,7 +11,7 @@ type MiddlewareHandler interface {
 
 /*
  * Package Configuration defaults
- */
+
 func GetConfigDefaults(contextPath string) []configuration.VarDefinition {
 	return []configuration.VarDefinition{
 		{strings.Join([]string{contextPath, MiddlewareErrorId, "disclose-error-info"}, "."), MiddlewareErrorDefaultDiscoleInfo, "error is in clear"},
@@ -22,3 +20,4 @@ func GetConfigDefaults(contextPath string) []configuration.VarDefinition {
 		{strings.Join([]string{contextPath, MiddlewareTracingId, "header"}, "."), MiddlewareTracingDefaultHeader, "header"},
 	}
 }
+*/

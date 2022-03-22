@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	_ "embed"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
 	_ "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv/resource"
@@ -11,7 +10,6 @@ import (
 	"github.com/uber/jaeger-client-go"
 	jaegercfg "github.com/uber/jaeger-client-go/config"
 	"github.com/uber/jaeger-lib/metrics"
-	"gitlab.alm.poste.it/go/configuration"
 	"io"
 	"os"
 	"os/signal"
@@ -32,6 +30,7 @@ func (m *AppConfig) PostProcess() error {
 	return nil
 }
 
+/*
 func (m *AppConfig) GetDefaults() []configuration.VarDefinition {
 
 	vd := make([]configuration.VarDefinition, 0, 20)
@@ -39,6 +38,7 @@ func (m *AppConfig) GetDefaults() []configuration.VarDefinition {
 	vd = append(vd, middleware.GetConfigDefaults("config.mw-handler-registry")...)
 	return vd
 }
+*/
 
 //go:embed config.yml
 var configFile []byte
@@ -47,14 +47,16 @@ func main() {
 
 	appCfg := AppConfig{}
 
-	_, err := configuration.NewConfiguration(
-		configuration.WithType("yaml"),
-		configuration.WithName("tpm-gin"),
-		configuration.WithReader(bytes.NewBuffer([]byte(configFile))),
-		configuration.WithData(&appCfg))
-	if nil != err {
-		log.Fatal().Err(err).Send()
-	}
+	/*
+		_, err := configuration.NewConfiguration(
+			configuration.WithType("yaml"),
+			configuration.WithName("tpm-gin"),
+			configuration.WithReader(bytes.NewBuffer([]byte(configFile))),
+			configuration.WithData(&appCfg))
+		if nil != err {
+			log.Fatal().Err(err).Send()
+		}
+	*/
 
 	log.Info().Msgf("read in config is: %+v\n", appCfg)
 
