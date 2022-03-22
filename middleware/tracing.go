@@ -14,16 +14,17 @@ type TracingHandler struct {
 }
 
 // NewErrorHandler builds an Error Handler with the following options:
+
 func NewTracingHandler(cfg interface{}) MiddlewareHandler {
 
-	var tcfg TracingHandlerConfig
+	var tcfg *TracingHandlerConfig
 	var ok bool
-	if tcfg, ok = cfg.(TracingHandlerConfig); ok {
-		tcfg = DefaultTracingHandlerConfig
+	if tcfg, ok = cfg.(*TracingHandlerConfig); !ok {
+		tcfg = &DefaultTracingHandlerConfig
 	}
 
 	return &TracingHandler{
-		config: &tcfg,
+		config: tcfg,
 	}
 }
 

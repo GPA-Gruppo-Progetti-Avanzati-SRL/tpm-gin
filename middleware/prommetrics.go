@@ -9,14 +9,14 @@ type PromHttpMetricsHandler struct {
 }
 
 func NewPromHttpMetricsHandler(cfg interface{}) MiddlewareHandler {
-	var tcfg PromHttpMetricsHandlerConfig
+	var tcfg *PromHttpMetricsHandlerConfig
 	var ok bool
-	if tcfg, ok = cfg.(PromHttpMetricsHandlerConfig); ok {
-		tcfg = DefaultPromHttpMetricsHandlerConfig
+	if tcfg, ok = cfg.(*PromHttpMetricsHandlerConfig); !ok {
+		tcfg = &DefaultPromHttpMetricsHandlerConfig
 	}
 
 	return &PromHttpMetricsHandler{
-		config: &tcfg,
+		config: tcfg,
 	}
 }
 
