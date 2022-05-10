@@ -79,6 +79,9 @@ func newRouter(serverContext ServerContext, mws []H) *gin.Engine {
 	for _, gfact := range application.gRegistrationFactories {
 		gs := gfact(serverContext)
 		for _, gdef := range gs {
+			if gdef.UseSysMw {
+				gdef.Middlewares = append(gdef.Middlewares, mws...)
+			}
 			addGroup2Engine(r, serverContext.GetContextPath(), gdef)
 		}
 	}
