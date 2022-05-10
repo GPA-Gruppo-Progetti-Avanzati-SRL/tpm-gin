@@ -8,6 +8,7 @@ const (
 /*
  * ErrorHandlerConfig
  */
+
 type PromHttpMetricsHandlerConfig struct {
 }
 

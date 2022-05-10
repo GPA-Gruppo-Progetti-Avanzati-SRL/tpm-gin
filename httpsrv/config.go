@@ -72,6 +72,7 @@ func GetConfigDefaults() []configuration.VarDefinition {
 //   WithListenPort(uint16)                    listen port for this httpsrv
 //   WithMiddlewareHandlers([]gin.HandlerFunc) array of middlewares for this httpsrv
 //   WithShutdownTimeout(time.Duration)        shutdown  Timeout
+
 type CfgOption func(*Config)
 
 func WithBindAddress(ba string) CfgOption {

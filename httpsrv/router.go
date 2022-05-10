@@ -42,6 +42,7 @@ func (ra *app) RegisterGFactory(rr ...GFactory) {
 
 type G struct {
 	Name        string
+	UseSysMw    bool
 	AbsPath     bool
 	Path        string
 	Middlewares []H
@@ -61,11 +62,17 @@ func newRouter(serverContext ServerContext, mws []H) *gin.Engine {
 	r := gin.New()
 	r.Use(ginzerolog.Logger("gin"))
 
-	for _, mw := range mws {
-		r.Use(gin.HandlerFunc(mw))
-	}
+	/*
+		for _, mw := range mws {
+			r.Use(gin.HandlerFunc(mw))
+		}
+	*/
 
 	for _, gdef := range application.gRegistry {
+
+		if gdef.UseSysMw {
+			gdef.Middlewares = append(gdef.Middlewares, mws...)
+		}
 		addGroup2Engine(r, serverContext.GetContextPath(), gdef)
 	}
 
