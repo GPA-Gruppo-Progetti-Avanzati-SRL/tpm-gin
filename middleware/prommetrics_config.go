@@ -9,7 +9,7 @@ const (
 
 var DefaultMetricsConfig = PromHttpMetricsHandlerConfig{
 	Namespace: "tpm",
-	Subsystem: "http-server",
+	Subsystem: "http_server",
 	Collectors: []promutil.MetricConfig{
 		{
 			Id:     "requests",
