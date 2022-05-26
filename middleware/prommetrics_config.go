@@ -41,7 +41,7 @@ var DefaultMetricsConfig = PromHttpMetricsHandlerConfig{
 type PromHttpMetricsHandlerConfig struct {
 	Namespace  string                  `yaml:"namespace"  mapstructure:"namespace"  json:"namespace"`
 	Subsystem  string                  `yaml:"subsystem"  mapstructure:"subsystem"  json:"subsystem"`
-	Collectors []promutil.MetricConfig `yaml:"collectors"  mapstructure:"collectors"  json:"collectors"`
+	Collectors []promutil.MetricConfig `yaml:"metrics"  mapstructure:"metrics"  json:"metrics"`
 }
 
 var DefaultPromHttpMetricsHandlerConfig = PromHttpMetricsHandlerConfig{}

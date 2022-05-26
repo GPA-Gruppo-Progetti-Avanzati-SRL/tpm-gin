@@ -43,12 +43,12 @@ type MetricsConfig struct {
 }
 
 type MetricConfig struct {
-	Id      string
-	Name    string
-	Help    string
-	Labels  string
-	Type    string
-	Buckets HistogramBucketConfig
+	Id      string                `yaml:"id"  mapstructure:"id"  json:"id"`
+	Name    string                `yaml:"name"  mapstructure:"name"  json:"name"`
+	Help    string                `yaml:"help"  mapstructure:"help"  json:"help"`
+	Labels  string                `yaml:"labels"  mapstructure:"labels"  json:"labels"`
+	Type    string                `yaml:"type"  mapstructure:"type"  json:"type"`
+	Buckets HistogramBucketConfig `yaml:"buckets,omitempty"  mapstructure:"buckets,omitempty"  json:"buckets,omitempty"`
 }
 
 /*type MetricsHistogramConfig struct {
@@ -60,8 +60,8 @@ type MetricConfig struct {
 */
 
 type HistogramBucketConfig struct {
-	Type        string
-	Start       float64
-	WidthFactor float64
-	Count       int
+	Type        string  `yaml:"type,omitempty"  mapstructure:"type,omitempty"  json:"type,omitempty"`
+	Start       float64 `yaml:"start,omitempty"  mapstructure:"start,omitempty"  json:"start,omitempty"`
+	WidthFactor float64 `yaml:"width-factor,omitempty"  mapstructure:"width-factor,omitempty"  json:"width-factor,omitempty"`
+	Count       int     `yaml:"count,omitempty"  mapstructure:"count,omitempty"  json:"count,omitempty"`
 }
