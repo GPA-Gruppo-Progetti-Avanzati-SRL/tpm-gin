@@ -3,6 +3,7 @@ package middleware
 import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware/promutil"
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/rs/zerolog/log"
 )
 
@@ -50,6 +51,8 @@ func (m *PromHttpMetricsHandler) HandleFunc() gin.HandlerFunc {
 
 	// TODO: at the moment it is simply an empty handler..
 	return func(c *gin.Context) {
+
+		_ = promutil.SetMetricValueById(m.collectors, "requests", 1, prometheus.Labels{"endpoint": "/endpoint", "status_code": "400"})
 		if nil != c {
 			c.Next()
 		}
