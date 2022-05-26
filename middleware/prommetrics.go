@@ -55,8 +55,9 @@ func (m *PromHttpMetricsHandler) HandleFunc() gin.HandlerFunc {
 
 		beginOfMiddleware := time.Now()
 
+		var sc = "500"
 		ep := c.Request.URL.String()
-		sc := fmt.Sprintf("%d", c.Writer.Status())
+
 		defer func(begin time.Time) {
 			promutil.SetMetricValueById(m.collectors, "request_duration", time.Since(begin).Seconds(), prometheus.Labels{"endpoint": ep, "status_code": sc})
 		}(beginOfMiddleware)
@@ -65,6 +66,7 @@ func (m *PromHttpMetricsHandler) HandleFunc() gin.HandlerFunc {
 			c.Next()
 		}
 
+		sc = fmt.Sprintf("%d", c.Writer.Status())
 		_ = promutil.SetMetricValueById(m.collectors, "requests", 1, prometheus.Labels{"endpoint": ep, "status_code": sc})
 	}
 
