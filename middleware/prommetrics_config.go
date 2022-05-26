@@ -1,15 +1,47 @@
 package middleware
 
+import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware/promutil"
+
 const (
 	MiddlewareMetricsPromHttpId = "gin-mw-metrics"
 	MiddlewareMetricsKind       = "mw-kind-metrics"
 )
+
+var DefaultMetricsConfig = PromHttpMetricsHandlerConfig{
+	Namespace: "tpm",
+	Subsystem: "http-server",
+	Collectors: []promutil.MetricConfig{
+		{
+			Id:     "requests",
+			Name:   "requests",
+			Help:   "numero richieste",
+			Labels: "endpoint,status-code",
+			Type:   promutil.MetricTypeCounter,
+		},
+		{
+			Id:     "request-duration",
+			Name:   "request-duration",
+			Help:   "durata lavorazione richiesta",
+			Labels: "endpoint,status-code",
+			Type:   promutil.MetricTypeHistogram,
+			Buckets: promutil.HistogramBucketConfig{
+				Type:        "linear",
+				Start:       promutil.DefaultMetricsDurationBucketsStart,
+				WidthFactor: promutil.DefaultMetricsDurationBucketsWidthFormat,
+				Count:       promutil.DefaultMetricsDurationBucketsCount,
+			},
+		},
+	},
+}
 
 /*
  * ErrorHandlerConfig
  */
 
 type PromHttpMetricsHandlerConfig struct {
+	Namespace  string                  `yaml:"namespace"  mapstructure:"namespace"  json:"namespace"`
+	Subsystem  string                  `yaml:"subsystem"  mapstructure:"subsystem"  json:"subsystem"`
+	Collectors []promutil.MetricConfig `yaml:"collectors"  mapstructure:"collectors"  json:"collectors"`
 }
 
 var DefaultPromHttpMetricsHandlerConfig = PromHttpMetricsHandlerConfig{}

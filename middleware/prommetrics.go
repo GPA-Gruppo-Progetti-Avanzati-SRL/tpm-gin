@@ -1,11 +1,14 @@
 package middleware
 
 import (
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware/promutil"
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog/log"
 )
 
 type PromHttpMetricsHandler struct {
-	config *PromHttpMetricsHandlerConfig
+	config     *PromHttpMetricsHandlerConfig
+	collectors []promutil.MetricInfo
 }
 
 func NewPromHttpMetricsHandler(cfg interface{}) MiddlewareHandler {
@@ -15,8 +18,27 @@ func NewPromHttpMetricsHandler(cfg interface{}) MiddlewareHandler {
 		tcfg = &DefaultPromHttpMetricsHandlerConfig
 	}
 
+	if tcfg.Namespace == "" || tcfg.Subsystem == "" {
+		tcfg = &DefaultMetricsConfig
+	} else {
+		if len(tcfg.Collectors) == 0 {
+			tcfg.Collectors = DefaultMetricsConfig.Collectors
+		}
+	}
+
+	collectors := make([]promutil.MetricInfo, 0)
+
+	for _, mCfg := range tcfg.Collectors {
+		if mc, err := promutil.NewCollector(tcfg.Namespace, tcfg.Subsystem, mCfg.Name, &mCfg); err != nil {
+			log.Error().Err(err).Str("name", mCfg.Name).Msg("error creating metric")
+		} else {
+			collectors = append(collectors, promutil.MetricInfo{Type: mCfg.Type, Id: mCfg.Id, Name: mCfg.Name, Collector: mc, Labels: mCfg.Labels})
+		}
+	}
+
 	return &PromHttpMetricsHandler{
-		config: tcfg,
+		config:     tcfg,
+		collectors: collectors,
 	}
 }
 

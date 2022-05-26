@@ -11,10 +11,11 @@ const (
 /*
  * TracingHandlerConfig
  */
+
 type TracingHandlerConfig struct {
-	Alphabet string
-	SpanTag  string
-	Header   string
+	Alphabet string `yaml:"alphabet"  mapstructure:"alphabet"  json:"alphabet"`
+	SpanTag  string `yaml:"span-tag"  mapstructure:"span-tag"  json:"span-tag"`
+	Header   string `yaml:"header"  mapstructure:"header"  json:"header"`
 }
 
 var DefaultTracingHandlerConfig = TracingHandlerConfig{
@@ -35,6 +36,7 @@ func (h *TracingHandlerConfig) GetKind() string {
 //    WithErrorDisclosureSpanTag(string)       // span tag for the error  (defaults to "error.id)
 //    WithErrorDisclosureHeader(string)        // error id header (defaults to "x-errid")
 //    WithAlphabet(string)                     // alphabet  to generate the error id
+
 type TracingHandlerConfigOption func(*TracingHandlerConfig)
 type TracingHandlerConfigBuilder struct {
 	opts []TracingHandlerConfigOption
