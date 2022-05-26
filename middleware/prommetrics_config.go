@@ -15,14 +15,14 @@ var DefaultMetricsConfig = PromHttpMetricsHandlerConfig{
 			Id:     "requests",
 			Name:   "requests",
 			Help:   "numero richieste",
-			Labels: "endpoint,status-code",
+			Labels: "endpoint,status_code",
 			Type:   promutil.MetricTypeCounter,
 		},
 		{
-			Id:     "request-duration",
-			Name:   "request-duration",
+			Id:     "request_duration",
+			Name:   "request_duration",
 			Help:   "durata lavorazione richiesta",
-			Labels: "endpoint,status-code",
+			Labels: "endpoint,status_code",
 			Type:   promutil.MetricTypeHistogram,
 			Buckets: promutil.HistogramBucketConfig{
 				Type:        "linear",
