@@ -63,6 +63,7 @@ func (s *serverImpl) Start() error {
 
 	mhs = append(mhs, s.cfg.mwHandlers...)
 	r := newRouter(s.serverCtx, mhs)
+	r.RedirectTrailingSlash = false
 
 	for _, docRoot := range s.cfg.Statics {
 		if "" != docRoot.DocumentRoot {

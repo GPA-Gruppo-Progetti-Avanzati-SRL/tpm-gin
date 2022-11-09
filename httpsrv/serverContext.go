@@ -25,6 +25,10 @@ func NewServerContext(cfg Config) ServerContext {
 
 	sctx := &serverContext{ServerContextCfg: cfg.ServerCtx, Context: make(map[string]interface{})}
 
+	if sctx.ServerContextCfg.ContextParams == nil {
+		sctx.ServerContextCfg.ContextParams = make(map[string]interface{})
+	}
+
 	// Augmenting server context with config related stuff required by some components.
 	sctx.ServerContextCfg.ContextParams[SRVCTX_SERVER_PORT] = cfg.ListenPort
 
