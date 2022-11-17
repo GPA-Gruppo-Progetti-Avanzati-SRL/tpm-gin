@@ -40,6 +40,10 @@ func (ra *app) RegisterGFactory(rr ...GFactory) {
 	ra.gRegistrationFactories = append(ra.gRegistrationFactories, rr...)
 }
 
+const (
+	MethodAny = "ANY" // Used when regiistering resources for all the methods.
+)
+
 type G struct {
 	Name        string
 	UseSysMw    bool
@@ -120,6 +124,8 @@ func addGroup2Engine(eng *gin.Engine, contextPath string, gdef G) {
 			g.DELETE(r.Path, r.RouteHandlers...)
 		case http.MethodPatch:
 			g.PATCH(r.Path, r.RouteHandlers...)
+		case "ANY":
+			g.Any(r.Path, r.RouteHandlers...)
 		}
 	}
 }
