@@ -33,7 +33,7 @@ func (h *TracingHandlerConfig) GetKind() string {
 //                                             // if disabled a response Header, configured with WithErrorDisclosureHeader is returned
 //                                             // to the client with an errorid and the error is injected in an opentracing span having
 //                                             // the same id as tag
-//    WithErrorDisclosureSpanTag(string)       // span tag for the error  (defaults to "error.id)
+//    WithErrorDisclosureSpanTag(string)       // span tag for the error  (defaults to "error.id")
 //    WithErrorDisclosureHeader(string)        // error id header (defaults to "x-errid")
 //    WithAlphabet(string)                     // alphabet  to generate the error id
 

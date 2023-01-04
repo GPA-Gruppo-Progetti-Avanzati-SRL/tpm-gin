@@ -1,4 +1,4 @@
-package resource
+package health
 
 import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"

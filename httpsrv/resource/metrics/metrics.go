@@ -1,4 +1,4 @@
-package resource
+package metrics
 
 import (
 	"crypto/tls"
@@ -79,7 +79,7 @@ func exportMetricsHandleFunc() gin.HandlerFunc {
 }
 
 /*
-	returns observability in a json format
+returns observability in a json format
 */
 func JsonMetrics(connStr string) httpsrv.H {
 
@@ -110,8 +110,8 @@ func JsonMetrics(connStr string) httpsrv.H {
 }
 
 /*
-	returns a metric in a json format
-	with the specified name
+returns a metric in a json format
+with the specified name
 */
 func JsonMetricsByName(connStr string) httpsrv.H {
 
