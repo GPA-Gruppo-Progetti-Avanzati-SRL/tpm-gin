@@ -64,8 +64,7 @@ type R struct {
 func newRouter(serverContext ServerContext, mws []H, pathsNotToLog []string) *gin.Engine {
 
 	r := gin.New()
-	gin.LoggerWithWriter(gin.DefaultWriter, pathsNotToLog...)
-	r.Use(middleware.ZeroLogger("gin"))
+	r.Use(middleware.ZeroLogger("gin", pathsNotToLog...))
 	r.Use(gin.Recovery())
 
 	/*
