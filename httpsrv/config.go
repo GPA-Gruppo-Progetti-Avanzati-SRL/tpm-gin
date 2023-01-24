@@ -7,12 +7,12 @@ import (
 )
 
 type Config struct {
-	BindAddress     string        `yaml:"bind-address" mapstructure:"bind-address"`
-	ListenPort      int           `yaml:"port" mapstructure:"port"`
-	ShutdownTimeout time.Duration `yaml:"shutdown-timeout" mapstructure:"shutdown-timeout"`
-
-	ServerMode string           `yaml:"server-mode" mapstructure:"server-mode"`
-	ServerCtx  ServerContextCfg `yaml:"server-context" mapstructure:"server-context"`
+	BindAddress     string           `yaml:"bind-address" mapstructure:"bind-address"`
+	ListenPort      int              `yaml:"port" mapstructure:"port"`
+	ShutdownTimeout time.Duration    `yaml:"shutdown-timeout" mapstructure:"shutdown-timeout"`
+	PathsNotToLog   []string         `yaml:"paths-not-to-log" mapstructure:"paths-not-to-log"`
+	ServerMode      string           `yaml:"server-mode" mapstructure:"server-mode"`
+	ServerCtx       ServerContextCfg `yaml:"server-context" mapstructure:"server-context"`
 
 	Statics     []StaticContent `yaml:"static-content" mapstructure:"static-content"`
 	HtmlContent string          `yaml:"html-content" mapstructure:"html-content"`

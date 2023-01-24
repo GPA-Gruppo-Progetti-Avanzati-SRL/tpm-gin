@@ -2,7 +2,7 @@ package httpsrv
 
 import (
 	"fmt"
-	ginzerolog "github.com/dn365/gin-zerolog"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
 	"net/http"
@@ -61,10 +61,12 @@ type R struct {
 	RouteHandlers []H
 }
 
-func newRouter(serverContext ServerContext, mws []H) *gin.Engine {
+func newRouter(serverContext ServerContext, mws []H, pathsNotToLog []string) *gin.Engine {
 
 	r := gin.New()
-	r.Use(ginzerolog.Logger("gin"))
+	gin.LoggerWithWriter(gin.DefaultWriter, pathsNotToLog...)
+	r.Use(middleware.ZeroLogger("gin"))
+	r.Use(gin.Recovery())
 
 	/*
 		for _, mw := range mws {

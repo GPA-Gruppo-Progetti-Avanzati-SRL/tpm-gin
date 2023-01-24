@@ -62,7 +62,7 @@ func (s *serverImpl) Start() error {
 	}
 
 	mhs = append(mhs, s.cfg.mwHandlers...)
-	r := newRouter(s.serverCtx, mhs)
+	r := newRouter(s.serverCtx, mhs, s.cfg.PathsNotToLog)
 	r.RedirectTrailingSlash = false
 
 	for _, docRoot := range s.cfg.Statics {
