@@ -53,6 +53,11 @@ func (t *TracingHandler) HandleFunc() gin.HandlerFunc {
 			c.Next()
 		}
 
+		if span != nil {
+			span.SetTag("http.method", c.Request.Method)
+			span.SetTag("http.status_code", c.Writer.Status())
+		}
+
 		/*
 		 * Don't know if should check also on c.Request.ContextParams().Err()
 		 */
