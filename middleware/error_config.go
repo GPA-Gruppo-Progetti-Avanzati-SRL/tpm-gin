@@ -1,24 +1,24 @@
 package middleware
 
 const (
-	MiddlewareErrorId                 = "gin-mw-error"
-	MiddlewareErrorKind               = "mw-kind-error"
-	MiddlewareErrorDefaultDiscoleInfo = true
+	ErrorHandlerId       = "gin-mw-error"
+	ErrorHandlerKind     = "mw-kind-error"
+	ErrorDefaultWithInfo = true
 )
 
 /*
  * ErrorHandlerConfig
  */
 type ErrorHandlerConfig struct {
-	DiscloseErrorInfo bool `json:"with-info"  yaml:"with-info"  mapstructure:"with-info"`
+	WithInfo bool `json:"with-info"  yaml:"with-info"  mapstructure:"with-info"`
 }
 
 var DefaultErrorHandlerConfig = ErrorHandlerConfig{
-	DiscloseErrorInfo: MiddlewareErrorDefaultDiscoleInfo,
+	WithInfo: ErrorDefaultWithInfo,
 }
 
 func (h *ErrorHandlerConfig) GetKind() string {
-	return MiddlewareErrorKind
+	return ErrorHandlerKind
 }
 
 type ErrorHandlerConfigOption func(*ErrorHandlerConfig)
@@ -29,7 +29,7 @@ type ErrorHandlerConfigBuilder struct {
 func (cb *ErrorHandlerConfigBuilder) WithErrorEnabled(enabled bool) *ErrorHandlerConfigBuilder {
 
 	f := func(c *ErrorHandlerConfig) {
-		c.DiscloseErrorInfo = enabled
+		c.WithInfo = enabled
 	}
 
 	cb.opts = append(cb.opts, f)

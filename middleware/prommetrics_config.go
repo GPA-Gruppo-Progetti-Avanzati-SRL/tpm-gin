@@ -3,8 +3,8 @@ package middleware
 import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware/promutil"
 
 const (
-	MiddlewareMetricsPromHttpId = "gin-mw-metrics"
-	MiddlewareMetricsKind       = "mw-kind-metrics"
+	MetricsHandlerId   = "gin-mw-metrics"
+	MetricsHandlerKind = "mw-kind-metrics"
 )
 
 var DefaultMetricsConfig = PromHttpMetricsHandlerConfig{
@@ -47,7 +47,7 @@ type PromHttpMetricsHandlerConfig struct {
 var DefaultPromHttpMetricsHandlerConfig = PromHttpMetricsHandlerConfig{}
 
 func (h *PromHttpMetricsHandlerConfig) GetKind() string {
-	return MiddlewareMetricsKind
+	return MetricsHandlerKind
 }
 
 type PromHttpMetricsHandlerOption func(*PromHttpMetricsHandlerConfig)

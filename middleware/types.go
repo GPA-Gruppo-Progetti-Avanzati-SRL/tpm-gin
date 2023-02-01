@@ -14,10 +14,10 @@ type MiddlewareHandler interface {
 
 func GetConfigDefaults(contextPath string) []configuration.VarDefinition {
 	return []configuration.VarDefinition{
-		{strings.Join([]string{contextPath, MiddlewareErrorId, "disclose-error-info"}, "."), MiddlewareErrorDefaultDiscoleInfo, "error is in clear"},
-		{strings.Join([]string{contextPath, MiddlewareTracingId, "alphabet"}, "."), MiddlewareTracingDefaultAlphabet, "alphabet"},
-		{strings.Join([]string{contextPath, MiddlewareTracingId, "spantag"}, "."), MiddlewareTracingDefaultSpanTag, "spantag"},
-		{strings.Join([]string{contextPath, MiddlewareTracingId, "header"}, "."), MiddlewareTracingDefaultHeader, "header"},
+		{strings.Join([]string{contextPath, ErrorHandlerId, "disclose-error-info"}, "."), ErrorDefaultWithInfo, "error is in clear"},
+		{strings.Join([]string{contextPath, TracingHandlerId, "alphabet"}, "."), TracingHandlerDefaultAlphabet, "alphabet"},
+		{strings.Join([]string{contextPath, TracingHandlerId, "spantag"}, "."), TracingHandlerDefaultSpanTag, "spantag"},
+		{strings.Join([]string{contextPath, TracingHandlerId, "header"}, "."), TracingHandlerDefaultHeader, "header"},
 	}
 }
 */

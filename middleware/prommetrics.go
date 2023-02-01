@@ -46,7 +46,7 @@ func NewPromHttpMetricsHandler(cfg interface{}) MiddlewareHandler {
 }
 
 func (h *PromHttpMetricsHandler) GetKind() string {
-	return MiddlewareMetricsKind
+	return MetricsHandlerKind
 }
 
 func (m *PromHttpMetricsHandler) HandleFunc() gin.HandlerFunc {

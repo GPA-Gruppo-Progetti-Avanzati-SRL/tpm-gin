@@ -1,11 +1,11 @@
 package middleware
 
 const (
-	MiddlewareTracingId              = "gin-mw-tracing"
-	MiddlewareTracingKind            = "mw-kind-tracing"
-	MiddlewareTracingDefaultAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-"
-	MiddlewareTracingDefaultSpanTag  = "error.id"
-	MiddlewareTracingDefaultHeader   = "x-errid"
+	TracingHandlerId              = "gin-mw-tracing"
+	TracingHandlerKind            = "mw-kind-tracing"
+	TracingHandlerDefaultAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-"
+	TracingHandlerDefaultSpanTag  = "error.id"
+	TracingHandlerDefaultHeader   = "x-errid"
 )
 
 /*
@@ -19,13 +19,13 @@ type TracingHandlerConfig struct {
 }
 
 var DefaultTracingHandlerConfig = TracingHandlerConfig{
-	Alphabet: MiddlewareTracingDefaultAlphabet,
-	SpanTag:  MiddlewareTracingDefaultSpanTag,
-	Header:   MiddlewareTracingDefaultHeader,
+	Alphabet: TracingHandlerDefaultAlphabet,
+	SpanTag:  TracingHandlerDefaultSpanTag,
+	Header:   TracingHandlerDefaultHeader,
 }
 
 func (h *TracingHandlerConfig) GetKind() string {
-	return MiddlewareTracingKind
+	return TracingHandlerKind
 }
 
 //    WithErrorDisclosureEnabled(bool)         // Enables/Disables error disclosure to the client

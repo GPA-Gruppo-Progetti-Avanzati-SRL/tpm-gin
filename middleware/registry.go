@@ -13,9 +13,9 @@ type MwHandlerRegistryConfig struct {
 type HandlerFactory func(interface{}) MiddlewareHandler
 
 var handlerFactoryMap = map[string]HandlerFactory{
-	MiddlewareErrorId:           NewErrorHandler,
-	MiddlewareTracingId:         NewTracingHandler,
-	MiddlewareMetricsPromHttpId: NewPromHttpMetricsHandler,
+	ErrorHandlerId:   NewErrorHandler,
+	TracingHandlerId: NewTracingHandler,
+	MetricsHandlerId: NewPromHttpMetricsHandler,
 }
 
 type MwHandlerRegistry map[string]gin.HandlerFunc
@@ -25,15 +25,15 @@ var registry MwHandlerRegistry = make(map[string]gin.HandlerFunc)
 func InitializeHandlerRegistry(registryConfig *MwHandlerRegistryConfig) error {
 
 	if registryConfig.ErrCfg != nil {
-		registry[MiddlewareErrorId] = NewErrorHandler(registryConfig.ErrCfg).HandleFunc()
+		registry[ErrorHandlerId] = NewErrorHandler(registryConfig.ErrCfg).HandleFunc()
 	}
 
 	if registryConfig.TraceCfg != nil {
-		registry[MiddlewareTracingId] = NewTracingHandler(registryConfig.TraceCfg).HandleFunc()
+		registry[TracingHandlerId] = NewTracingHandler(registryConfig.TraceCfg).HandleFunc()
 	}
 
 	if registryConfig.MetricsCfg != nil {
-		registry[MiddlewareMetricsPromHttpId] = NewPromHttpMetricsHandler(registryConfig.MetricsCfg).HandleFunc()
+		registry[MetricsHandlerId] = NewPromHttpMetricsHandler(registryConfig.MetricsCfg).HandleFunc()
 	}
 
 	/*

@@ -51,7 +51,7 @@ func NewErrorHandler(cfg interface{}) MiddlewareHandler {
 }
 
 func (h *ErrorHandler) GetKind() string {
-	return MiddlewareErrorKind
+	return ErrorHandlerKind
 }
 
 func (h *ErrorHandler) HandleFunc() gin.HandlerFunc {
@@ -69,7 +69,7 @@ func (h *ErrorHandler) HandleFunc() gin.HandlerFunc {
 
 				ae := getAppError(c.Errors[0])
 				log.Error().Interface("appError", ae).Send()
-				if h.config.DiscloseErrorInfo {
+				if h.config.WithInfo {
 					c.AbortWithStatusJSON(ae.GetCode(), ae)
 				} else {
 					c.AbortWithStatus(ae.GetCode())

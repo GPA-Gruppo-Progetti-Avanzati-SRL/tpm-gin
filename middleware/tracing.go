@@ -29,7 +29,7 @@ func NewTracingHandler(cfg interface{}) MiddlewareHandler {
 }
 
 func (t *TracingHandler) GetKind() string {
-	return MiddlewareTracingKind
+	return TracingHandlerKind
 }
 
 func (t *TracingHandler) HandleFunc() gin.HandlerFunc {
