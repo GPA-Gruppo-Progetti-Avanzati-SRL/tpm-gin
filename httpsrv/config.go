@@ -7,18 +7,18 @@ import (
 )
 
 type Config struct {
-	BindAddress     string           `yaml:"bind-address" mapstructure:"bind-address"`
-	ListenPort      int              `yaml:"port" mapstructure:"port"`
-	ShutdownTimeout time.Duration    `yaml:"shutdown-timeout" mapstructure:"shutdown-timeout"`
-	PathsNotToLog   []string         `yaml:"paths-not-to-log" mapstructure:"paths-not-to-log"`
-	ServerMode      string           `yaml:"server-mode" mapstructure:"server-mode"`
-	ServerCtx       ServerContextCfg `yaml:"server-context" mapstructure:"server-context"`
+	BindAddress     string           `json:"bind-address" yaml:"bind-address" mapstructure:"bind-address"`
+	ListenPort      int              `json:"port" yaml:"port" mapstructure:"port"`
+	ShutdownTimeout time.Duration    `json:"shutdown-timeout" yaml:"shutdown-timeout" mapstructure:"shutdown-timeout"`
+	PathsNotToLog   []string         `json:"paths-not-to-log" yaml:"paths-not-to-log" mapstructure:"paths-not-to-log"`
+	ServerMode      string           `json:"server-mode" yaml:"server-mode" mapstructure:"server-mode"`
+	ServerCtx       ServerContextCfg `json:"server-context" yaml:"server-context" mapstructure:"server-context"`
 
-	Statics     []StaticContent `yaml:"static-content" mapstructure:"static-content"`
-	HtmlContent string          `yaml:"html-content" mapstructure:"html-content"`
+	Statics     []StaticContent `json:"static-content" yaml:"static-content" mapstructure:"static-content"`
+	HtmlContent string          `json:"html-content" yaml:"html-content" mapstructure:"html-content"`
 
 	mwHandlers []H
-	MwUse      []string `yaml:"mw-use" mapstructure:"mw-use"`
+	MwUse      []string `json:"mw-use" yaml:"mw-use" mapstructure:"mw-use"`
 }
 
 const (
@@ -26,13 +26,13 @@ const (
 )
 
 type ServerContextCfg struct {
-	Path          string                 `yaml:"path" mapstructure:"path"`
-	ContextParams map[string]interface{} `yaml:"context" mapstructure:"context"`
+	Path          string                 `json:"path" yaml:"path" mapstructure:"path"`
+	ContextParams map[string]interface{} `json:"context" yaml:"context" mapstructure:"context"`
 }
 
 type StaticContent struct {
-	UrlPrefix       string `yaml:"url-prefix" mapstructure:"url-prefix"`
-	DocumentRoot    string `yaml:"document-root" mapstructure:"document-root"`
+	UrlPrefix       string `json:"url-prefix" yaml:"url-prefix" mapstructure:"url-prefix"`
+	DocumentRoot    string `json:"document-root" yaml:"document-root" mapstructure:"document-root"`
 	Indexes         bool
 	EmbedFileSystem embed.FS
 }
