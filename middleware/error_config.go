@@ -10,7 +10,7 @@ const (
  * ErrorHandlerConfig
  */
 type ErrorHandlerConfig struct {
-	DiscloseErrorInfo bool `yaml:"disclose-error-info"  mapstructure:"disclose-error-info"`
+	DiscloseErrorInfo bool `yaml:"with-info"  yaml:"with-info"  mapstructure:"with-info"`
 }
 
 var DefaultErrorHandlerConfig = ErrorHandlerConfig{
