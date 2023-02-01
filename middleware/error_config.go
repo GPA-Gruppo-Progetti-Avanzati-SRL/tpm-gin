@@ -1,9 +1,9 @@
 package middleware
 
 const (
-	ErrorHandlerId       = "gin-mw-error"
-	ErrorHandlerKind     = "mw-kind-error"
-	ErrorDefaultWithInfo = true
+	ErrorHandlerId              = "gin-mw-error"
+	ErrorHandlerKind            = "mw-kind-error"
+	ErrorHandlerDefaultWithInfo = true
 )
 
 /*
@@ -14,7 +14,7 @@ type ErrorHandlerConfig struct {
 }
 
 var DefaultErrorHandlerConfig = ErrorHandlerConfig{
-	WithInfo: ErrorDefaultWithInfo,
+	WithInfo: ErrorHandlerDefaultWithInfo,
 }
 
 func (h *ErrorHandlerConfig) GetKind() string {
