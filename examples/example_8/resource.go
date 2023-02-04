@@ -68,7 +68,6 @@ func example() httpsrv.H {
 
 		if lang == "it" {
 			// c.Error(middleware.NewAppError(350, "ciao"))
-			c.Data(220, "", nil)
 			c.AbortWithStatusJSON(350, middleware.NewAppError(350, "whatever"))
 			return
 		}

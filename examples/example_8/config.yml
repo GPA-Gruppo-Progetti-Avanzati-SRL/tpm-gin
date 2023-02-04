@@ -26,6 +26,10 @@ config:
   mw-handler-registry:
     gin-mw-metrics:
     gin-mw-tracing:
+      tags:
+        - name: request.id
+          type: header
+          value: requestId
     gin-mw-error:
       with-info: true
       alphabet: 0123456789

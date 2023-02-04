@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/opentracing/opentracing-go"
 	"github.com/rs/zerolog/log"
+	"net/http"
 	"reflect"
 )
 
@@ -50,6 +51,8 @@ func (t *TracingHandler) HandleFunc() gin.HandlerFunc {
 		}
 		defer span.Finish()
 
+		t.addConfiguredTags2Span(span, c.Request)
+
 		c.Request = c.Request.WithContext(opentracing.ContextWithSpan(c.Request.Context(), span))
 
 		if nil != c {
@@ -62,6 +65,18 @@ func (t *TracingHandler) HandleFunc() gin.HandlerFunc {
 			span.SetTag("http.status_code", statusCode)
 		}
 
+	}
+}
+
+func (t *TracingHandler) addConfiguredTags2Span(span opentracing.Span, req *http.Request) {
+	for _, t := range t.config.Tags {
+		switch t.Source {
+		case TracingHandlerSourceTypeHeader:
+			h := req.Header.Get(t.Value)
+			if h != "" {
+				span.SetTag(t.Name, h)
+			}
+		}
 	}
 }
 
