@@ -2,6 +2,8 @@ package main
 
 import (
 	_ "embed"
+	"encoding/json"
+	"fmt"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
 	_ "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv/resource/health"
 	_ "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv/resource/metrics"
@@ -66,10 +68,11 @@ func main() {
 	}
 
 	appCfg := exampleCfg.Config
-	log.Info().Msgf("read in config is: %+v\n", appCfg)
+	b, _ := json.Marshal(appCfg)
+	fmt.Println(string(b))
 
 	if appCfg.MwRegistry != nil {
-		if err := middleware.InitializeHandlerRegistry(appCfg.MwRegistry); err != nil {
+		if err := middleware.InitializeHandlerRegistry(appCfg.MwRegistry, appCfg.Http.MwUse); err != nil {
 			log.Fatal().Err(err).Send()
 		}
 	}

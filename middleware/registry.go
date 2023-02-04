@@ -22,18 +22,17 @@ type MwHandlerRegistry map[string]gin.HandlerFunc
 
 var registry MwHandlerRegistry = make(map[string]gin.HandlerFunc)
 
-func InitializeHandlerRegistry(registryConfig *MwHandlerRegistryConfig) error {
+func InitializeHandlerRegistry(registryConfig *MwHandlerRegistryConfig, mwInUse []string) error {
 
-	if registryConfig.ErrCfg != nil {
-		registry[ErrorHandlerId] = NewErrorHandler(registryConfig.ErrCfg).HandleFunc()
-	}
-
-	if registryConfig.TraceCfg != nil {
-		registry[TracingHandlerId] = NewTracingHandler(registryConfig.TraceCfg).HandleFunc()
-	}
-
-	if registryConfig.MetricsCfg != nil {
-		registry[MetricsHandlerId] = NewPromHttpMetricsHandler(registryConfig.MetricsCfg).HandleFunc()
+	for _, mw := range mwInUse {
+		switch mw {
+		case ErrorHandlerId:
+			registry[ErrorHandlerId] = NewErrorHandler(registryConfig.ErrCfg).HandleFunc()
+		case TracingHandlerId:
+			registry[TracingHandlerId] = NewTracingHandler(registryConfig.TraceCfg).HandleFunc()
+		case MetricsHandlerId:
+			registry[MetricsHandlerId] = NewPromHttpMetricsHandler(registryConfig.MetricsCfg).HandleFunc()
+		}
 	}
 
 	/*

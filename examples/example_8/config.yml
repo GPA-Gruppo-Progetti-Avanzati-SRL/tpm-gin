@@ -27,5 +27,14 @@ config:
     gin-mw-metrics:
     gin-mw-tracing:
     gin-mw-error:
-      disclose-error-info: true
+      with-info: true
+      alphabet: 0123456789
+      span-tag: error.id
+      header: x-errid
+      status-code-policy:
+        policy-mode: if-unlisted
+        status-codes:
+          - from: 200
+            to: 299
+
 

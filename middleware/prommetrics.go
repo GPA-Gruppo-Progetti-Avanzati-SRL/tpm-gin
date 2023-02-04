@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/rs/zerolog/log"
+	"reflect"
 	"time"
 )
 
@@ -17,8 +18,13 @@ type PromHttpMetricsHandler struct {
 func NewPromHttpMetricsHandler(cfg interface{}) MiddlewareHandler {
 	var tcfg *PromHttpMetricsHandlerConfig
 	var ok bool
-	if tcfg, ok = cfg.(*PromHttpMetricsHandlerConfig); !ok {
+
+	if cfg == nil || reflect.ValueOf(cfg).IsNil() {
 		tcfg = &DefaultPromHttpMetricsHandlerConfig
+	} else {
+		if tcfg, ok = cfg.(*PromHttpMetricsHandlerConfig); !ok {
+			tcfg = &DefaultPromHttpMetricsHandlerConfig
+		}
 	}
 
 	if tcfg.Namespace == "" || tcfg.Subsystem == "" {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
 	"net/http"
@@ -25,7 +26,8 @@ func registerGroups(_ httpsrv.ServerContext) []httpsrv.G {
 
 	gs = append(gs, httpsrv.G{
 		Name:        "HelloWorldEn",
-		Path:        "/:site/:lang",
+		Path:        ":site/:lang",
+		UseSysMw:    true,
 		Middlewares: []httpsrv.H{setLangHeader("uk")},
 		Resources: []httpsrv.R{
 			{
@@ -64,6 +66,13 @@ func example() httpsrv.H {
 			panic(err)
 		}
 
+		if lang == "it" {
+			// c.Error(middleware.NewAppError(350, "ciao"))
+			c.Data(220, "", nil)
+			c.AbortWithStatusJSON(350, middleware.NewAppError(350, "whatever"))
+			return
+		}
+
 		proxy := httputil.NewSingleHostReverseProxy(remote)
 		proxy.Director = func(req *http.Request) {
 			req.Header = c.Request.Header
@@ -74,6 +83,7 @@ func example() httpsrv.H {
 		}
 
 		proxy.ServeHTTP(c.Writer, c.Request)
+
 	}
 }
 
