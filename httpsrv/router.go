@@ -2,7 +2,7 @@ package httpsrv
 
 import (
 	"fmt"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/sysmiddleware"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
 	"net/http"
@@ -64,7 +64,7 @@ type R struct {
 func newRouter(serverContext ServerContext, mws []H, pathsNotToLog []string) *gin.Engine {
 
 	r := gin.New()
-	r.Use(middleware.ZeroLogger("gin", pathsNotToLog...))
+	r.Use(sysmiddleware.ZeroLogger("gin", pathsNotToLog...))
 	r.Use(gin.Recovery())
 
 	/*

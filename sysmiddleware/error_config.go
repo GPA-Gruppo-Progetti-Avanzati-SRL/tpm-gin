@@ -1,4 +1,4 @@
-package middleware
+package sysmiddleware
 
 const (
 	ErrorHandlerId   = "gin-mw-error"

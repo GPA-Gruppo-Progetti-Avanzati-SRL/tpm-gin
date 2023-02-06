@@ -7,7 +7,7 @@ import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
 	_ "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv/resource/health"
 	_ "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv/resource/metrics"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/sysmiddleware"
 	"github.com/opentracing/opentracing-go"
 	"github.com/rs/zerolog/log"
 	"github.com/uber/jaeger-client-go"
@@ -33,7 +33,7 @@ type ExampleConfig struct {
 
 type AppConfig struct {
 	Http       httpsrv.Config
-	MwRegistry *middleware.MwHandlerRegistryConfig `yaml:"mw-handler-registry" mapstructure:"mw-handler-registry"`
+	MwRegistry *sysmiddleware.MwHandlerRegistryConfig `yaml:"mw-handler-registry" mapstructure:"mw-handler-registry"`
 }
 
 func (m *AppConfig) PostProcess() error {
@@ -72,7 +72,7 @@ func main() {
 	fmt.Println(string(b))
 
 	if appCfg.MwRegistry != nil {
-		if err := middleware.InitializeHandlerRegistry(appCfg.MwRegistry, appCfg.Http.MwUse); err != nil {
+		if err := sysmiddleware.InitializeHandlerRegistry(appCfg.MwRegistry, appCfg.Http.MwUse); err != nil {
 			log.Fatal().Err(err).Send()
 		}
 	}

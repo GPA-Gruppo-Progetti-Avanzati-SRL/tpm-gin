@@ -1,6 +1,6 @@
-package middleware
+package sysmiddleware
 
-import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware/promutil"
+import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/sysmiddleware/promutil"
 
 const (
 	MetricsHandlerId   = "gin-mw-metrics"
