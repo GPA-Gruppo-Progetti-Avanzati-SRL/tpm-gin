@@ -3,14 +3,14 @@ package example_6_test
 import (
 	_ "embed"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/sysmiddleware"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
 
 	"testing"
 )
 
 type AppConfig struct {
 	Http       httpsrv.Config
-	MwRegistry *sysmiddleware.MwHandlerRegistryConfig `yaml:"mw-handler-registry" mapstructure:"mw-handler-registry"`
+	MwRegistry *middleware.MwHandlerRegistryConfig `yaml:"mw-handler-registry" mapstructure:"mw-handler-registry"`
 }
 
 func (m *AppConfig) PostProcess() error {
@@ -49,7 +49,7 @@ func TestConfigFile(t *testing.T) {
 	t.Logf("%+v\n", appCfg)
 
 	if appCfg.MwRegistry != nil {
-		if err := sysmiddleware.InitializeHandlerRegistry(appCfg.MwRegistry, appCfg.Http.MwUse); err != nil {
+		if err := middleware.InitializeHandlerRegistry(appCfg.MwRegistry, appCfg.Http.MwUse); err != nil {
 			t.Fatal(err)
 		}
 	}

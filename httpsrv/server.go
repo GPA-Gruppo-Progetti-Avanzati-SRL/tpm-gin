@@ -2,10 +2,9 @@ package httpsrv
 
 import (
 	"context"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv/embedstatic"
-
 	"fmt"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/sysmiddleware"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv/embedstatic"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
@@ -53,7 +52,7 @@ func (s *serverImpl) Start() error {
 
 	mhs := make([]H, 0, len(s.cfg.MwUse)+len(s.cfg.mwHandlers))
 	for _, s := range s.cfg.MwUse {
-		f := sysmiddleware.GetHandlerFunc(s)
+		f := middleware.GetHandlerFunc(s)
 		if f != nil {
 			mhs = append(mhs, f)
 		} else {

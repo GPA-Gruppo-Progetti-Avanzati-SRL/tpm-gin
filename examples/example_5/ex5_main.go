@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/sysmiddleware"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
 	"github.com/opentracing/opentracing-go"
 	"github.com/rs/zerolog/log"
 	"github.com/uber/jaeger-client-go"
@@ -30,8 +30,8 @@ func main() {
 		httpsrv.WithListenPort(8080),
 		httpsrv.WithShutdownTimeout(time.Duration(5)*time.Second),
 		httpsrv.WithContextPath("/api"),
-		httpsrv.WithMiddlewareHandlers(sysmiddleware.NewTracingHandler(sysmiddleware.DefaultTracingHandlerConfig).HandleFunc(),
-			sysmiddleware.NewErrorHandler(sysmiddleware.DefaultErrorHandlerConfig).HandleFunc()))
+		httpsrv.WithMiddlewareHandlers(middleware.NewTracingHandler(middleware.DefaultTracingHandlerConfig).HandleFunc(),
+			middleware.NewErrorHandler(middleware.DefaultErrorHandlerConfig).HandleFunc()))
 
 	if err != nil {
 		log.Fatal().Err(err).Send()

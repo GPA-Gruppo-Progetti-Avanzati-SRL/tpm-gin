@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/httpsrv"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/sysmiddleware"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
 	"net/http"
@@ -68,7 +68,7 @@ func example() httpsrv.H {
 
 		if lang == "it" {
 			// c.Error(middleware.NewAppError(middleware.AppErrorWithStatusCode(350), middleware.AppErrorWithText("error text")))
-			c.AbortWithStatusJSON(350, sysmiddleware.NewAppError(sysmiddleware.AppErrorWithStatusCode(350), sysmiddleware.AppErrorWithText("error text")))
+			c.AbortWithStatusJSON(350, middleware.NewAppError(middleware.AppErrorWithStatusCode(350), middleware.AppErrorWithText("error text")))
 			return
 		}
 

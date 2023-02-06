@@ -1,4 +1,4 @@
-package sysmiddleware
+package middleware
 
 const (
 	TracingHandlerId   = "gin-mw-tracing"

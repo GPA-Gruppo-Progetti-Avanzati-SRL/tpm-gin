@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/sysmiddleware"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware"
 	"github.com/dn365/gin-zerolog"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
@@ -27,8 +27,8 @@ func main() {
 
 	r := gin.New()
 	r.Use(ginzerolog.Logger("gin"),
-		sysmiddleware.NewTracingHandler(sysmiddleware.DefaultTracingHandlerConfig).HandleFunc(),
-		sysmiddleware.NewErrorHandler(sysmiddleware.DefaultErrorHandlerConfig).HandleFunc())
+		middleware.NewTracingHandler(middleware.DefaultTracingHandlerConfig).HandleFunc(),
+		middleware.NewErrorHandler(middleware.DefaultErrorHandlerConfig).HandleFunc())
 
 	// if the prefixes match it takes the first... apparently....
 	r.Use(static.Serve("/static2", static.LocalFile("/Users/marioa.imperato/projects/tpm/tpm-gin/examples/example_1", true)))
@@ -36,7 +36,7 @@ func main() {
 
 	r.GET("/ping", func(c *gin.Context) {
 		// c.AbortWithError(500, errors.New("Ciao"))
-		c.Error(sysmiddleware.NewAppError())
+		c.Error(middleware.NewAppError())
 		/*
 			c.JSON(200, gin.H{
 				"message": "pong",
