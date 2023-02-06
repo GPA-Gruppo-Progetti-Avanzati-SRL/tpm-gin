@@ -89,6 +89,7 @@ func getAppError(err error) AppError {
 		parsedError = &appError{
 			StatusCode: http.StatusInternalServerError,
 			Text:       "Internal Server Error",
+			Message:    v.Error(),
 		}
 	}
 

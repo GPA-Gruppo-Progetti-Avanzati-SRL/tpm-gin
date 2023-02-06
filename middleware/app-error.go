@@ -28,41 +28,41 @@ type appError struct {
 }
 
 func (ae appError) Error() string {
-
 	var sv strings.Builder
+	const sep = " - "
 	if ae.StatusCode != 0 {
-		sv.WriteString(fmt.Sprintf("status-code: %d -", ae.StatusCode))
+		sv.WriteString(fmt.Sprintf("status-code: %d"+sep, ae.StatusCode))
 	}
 
 	if ae.ErrCode != "" {
-		sv.WriteString(fmt.Sprintf("error-code: %s", ae.ErrCode))
+		sv.WriteString(fmt.Sprintf("error-code: %s"+sep, ae.ErrCode))
 	}
 
 	if ae.Ambit != "" {
-		sv.WriteString(fmt.Sprintf("ambit: %s", ae.Ambit))
+		sv.WriteString(fmt.Sprintf("ambit: %s"+sep, ae.Ambit))
 	}
 
 	if ae.Step != "" {
-		sv.WriteString(fmt.Sprintf("step: %s", ae.Step))
+		sv.WriteString(fmt.Sprintf("step: %s"+sep, ae.Step))
 	}
 
 	if ae.Text != "" {
-		sv.WriteString(fmt.Sprintf("text: %s", ae.Text))
+		sv.WriteString(fmt.Sprintf("text: %s"+sep, ae.Text))
 	}
 
 	if ae.Description != "" {
-		sv.WriteString(fmt.Sprintf("description: %s", ae.Description))
+		sv.WriteString(fmt.Sprintf("description: %s"+sep, ae.Description))
 	}
 
 	if ae.Message != "" {
-		sv.WriteString(fmt.Sprintf("message: %s", ae.Message))
+		sv.WriteString(fmt.Sprintf("message: %s"+sep, ae.Message))
 	}
 
 	if ae.Ts != "" {
-		sv.WriteString(fmt.Sprintf("timestamp: %s", ae.Ts))
+		sv.WriteString(fmt.Sprintf("timestamp: %s"+sep, ae.Ts))
 	}
 
-	return ae.Text
+	return strings.TrimSuffix(sv.String(), sep)
 }
 
 func (ae appError) GetStatusCode() int {
