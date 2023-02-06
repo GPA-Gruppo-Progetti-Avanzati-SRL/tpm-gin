@@ -1,8 +1,6 @@
 package middleware
 
 import (
-	"encoding/json"
-	"errors"
 	"github.com/gin-gonic/gin"
 	gonanoid "github.com/matoous/go-nanoid"
 	"github.com/opentracing/opentracing-go"
@@ -11,58 +9,6 @@ import (
 	"net/http"
 	"reflect"
 )
-
-type AppError interface {
-	GetCode() int
-	GetMessage() string
-	Error() string
-	Marshal(ct string) ([]byte, error)
-	Sanitized() AppError
-}
-
-type appError struct {
-	Code        int    `json:"code,omitempty" yaml:"code,omitempty" mapstructure:"code,omitempty"`
-	Ambit       string `json:"ambit,omitempty" yaml:"ambit,omitempty" mapstructure:"ambit,omitempty"`
-	Text        string `json:"text,omitempty" yaml:"text,omitempty" mapstructure:"text,omitempty"`
-	Description string `json:"description,omitempty" yaml:"description,omitempty" mapstructure:"description,omitempty"`
-}
-
-func (ae appError) Error() string {
-	return ae.Text
-}
-
-func (ae appError) GetCode() int {
-	return ae.Code
-}
-
-func (ae appError) GetMessage() string {
-	return ae.Text
-}
-
-func (ae appError) Marshal(ct string) ([]byte, error) {
-
-	if ct == "application/json" {
-		b, err := json.Marshal(ae)
-		return b, err
-	}
-
-	return nil, errors.New("app error cannot marshal to " + ct)
-}
-
-func (ae appError) Sanitized() AppError {
-
-	nae := &appError{
-		Code: ae.Code,
-		Text: ae.Text,
-	}
-
-	return nae
-}
-
-func NewAppError(c int, m string) AppError {
-	ae := &appError{Code: c, Text: m}
-	return ae
-}
 
 type ErrorHandler struct {
 	config *ErrorHandlerConfig
@@ -110,7 +56,7 @@ func (h *ErrorHandler) HandleFunc() gin.HandlerFunc {
 					h.fail(c, span, ae.Error())
 				}
 
-				c.AbortWithStatusJSON(ae.GetCode(), ae)
+				c.AbortWithStatusJSON(ae.GetStatusCode(), ae)
 			} else if h.config.StatusCodeHandlingPolicy.Hightlight(c.Writer.Status()) {
 				span := opentracing.SpanFromContext(c.Request.Context())
 				if nil != span {
@@ -129,8 +75,8 @@ func getAppError(err error) AppError {
 	gerr, ok1 := err.(*gin.Error)
 	if !ok1 {
 		parsedError = &appError{
-			Code: http.StatusInternalServerError,
-			Text: "Internal Server Error",
+			StatusCode: http.StatusInternalServerError,
+			Text:       "Internal Server Error",
 		}
 
 		return parsedError
@@ -141,8 +87,8 @@ func getAppError(err error) AppError {
 		parsedError = v
 	default:
 		parsedError = &appError{
-			Code: http.StatusInternalServerError,
-			Text: "Internal Server Error",
+			StatusCode: http.StatusInternalServerError,
+			Text:       "Internal Server Error",
 		}
 	}
 

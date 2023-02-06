@@ -14,7 +14,7 @@ type MiddlewareHandler interface {
 
 func GetConfigDefaults(contextPath string) []configuration.VarDefinition {
 	return []configuration.VarDefinition{
-		{strings.Join([]string{contextPath, ErrorHandlerId, "with-cause"}, "."), ErrorHandlerDefaultCauseMode, "error is in clear"},
+		{strings.Join([]string{contextPath, ErrorHandlerId, "with-cause"}, "."), ErrorHandlerDefaultWithCause, "error is in clear"},
 		{strings.Join([]string{contextPath, ErrorHandlerId, "alphabet"}, "."), ErrorHandlerDefaultAlphabet, "alphabet"},
 		{strings.Join([]string{contextPath, ErrorHandlerId, "spantag"}, "."), ErrorHandlerDefaultSpanTag, "spantag"},
 		{strings.Join([]string{contextPath, ErrorHandlerId, "header"}, "."), TErrorHandlerDefaultHeader, "header"},

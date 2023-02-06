@@ -36,7 +36,7 @@ func main() {
 
 	r.GET("/ping", func(c *gin.Context) {
 		// c.AbortWithError(500, errors.New("Ciao"))
-		c.Error(middleware.NewAppError(500, "test app error"))
+		c.Error(middleware.NewAppError())
 		/*
 			c.JSON(200, gin.H{
 				"message": "pong",

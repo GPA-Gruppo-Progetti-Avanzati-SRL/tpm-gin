@@ -49,7 +49,7 @@ func TestConfigFile(t *testing.T) {
 	t.Logf("%+v\n", appCfg)
 
 	if appCfg.MwRegistry != nil {
-		if err := middleware.InitializeHandlerRegistry(appCfg.MwRegistry); err != nil {
+		if err := middleware.InitializeHandlerRegistry(appCfg.MwRegistry, appCfg.Http.MwUse); err != nil {
 			t.Fatal(err)
 		}
 	}

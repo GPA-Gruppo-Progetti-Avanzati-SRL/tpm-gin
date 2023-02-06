@@ -62,7 +62,7 @@ func main() {
 	log.Info().Msgf("read in config is: %+v\n", appCfg)
 
 	if appCfg.MwRegistry != nil {
-		if err := middleware.InitializeHandlerRegistry(appCfg.MwRegistry); err != nil {
+		if err := middleware.InitializeHandlerRegistry(appCfg.MwRegistry, appCfg.Http.MwUse); err != nil {
 			log.Fatal().Err(err).Send()
 		}
 	}
