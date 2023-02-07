@@ -137,7 +137,7 @@ func AppErrorWithDescription(d string) AppErrorOption {
 	}
 }
 
-func NewAppError(opts ...AppErrorOption) AppError {
+func NewAppError(opts ...AppErrorOption) *AppErrorImpl {
 	ae := &AppErrorImpl{StatusCode: http.StatusInternalServerError, Text: "internal server error", Ts: time.Now().Format(time.RFC3339Nano)}
 	for _, o := range opts {
 		o(ae)
