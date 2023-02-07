@@ -74,7 +74,7 @@ func getAppError(err error) AppError {
 
 	gerr, ok1 := err.(*gin.Error)
 	if !ok1 {
-		parsedError = &appError{
+		parsedError = &AppErrorImpl{
 			StatusCode: http.StatusInternalServerError,
 			Text:       "Internal Server Error",
 		}
@@ -86,7 +86,7 @@ func getAppError(err error) AppError {
 	case AppError:
 		parsedError = v
 	default:
-		parsedError = &appError{
+		parsedError = &AppErrorImpl{
 			StatusCode: http.StatusInternalServerError,
 			Text:       "Internal Server Error",
 			Message:    v.Error(),
