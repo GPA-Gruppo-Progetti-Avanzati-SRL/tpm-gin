@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/mitchellh/mapstructure"
 	"github.com/opentracing/opentracing-go"
 	"github.com/rs/zerolog/log"
 	"net/http"
@@ -12,24 +13,39 @@ type TracingHandler struct {
 	config *TracingHandlerConfig
 }
 
-// NewErrorHandler builds an Error Handler with the following options:
+func MustNewTracingHandler(cfg interface{}) MiddlewareHandler {
 
-func NewTracingHandler(cfg interface{}) MiddlewareHandler {
+	const semLogContext = "must-new-tracing-handler"
+	h, err := NewTracingHandler(cfg)
+	if err != nil {
+		log.Fatal().Err(err).Msg(semLogContext)
+	}
 
-	var tcfg *TracingHandlerConfig
-	var ok bool
+	return h
+}
 
-	if cfg == nil || reflect.ValueOf(cfg).IsNil() {
-		tcfg = &DefaultTracingHandlerConfig
-	} else {
-		if tcfg, ok = cfg.(*TracingHandlerConfig); !ok {
-			tcfg = &DefaultTracingHandlerConfig
+// NewTracingHandler builds an Handler
+func NewTracingHandler(cfg interface{}) (MiddlewareHandler, error) {
+
+	const semLogContext = "new-tracing-handler"
+	tcfg := DefaultTracingHandlerConfig
+
+	if cfg != nil && !reflect.ValueOf(cfg).IsNil() {
+		if mapCfg, ok := cfg.(HandlerConfig); ok {
+			err := mapstructure.Decode(mapCfg, &tcfg)
+			if err != nil {
+				return nil, err
+			}
+		} else {
+			log.Warn().Msg(semLogContext + " unmarshal issue for tracing handler config")
 		}
+	} else {
+		log.Info().Str("mw-id", TracingHandlerId).Msg(semLogContext + " config null...reverting to default values")
 	}
 
-	return &TracingHandler{
-		config: tcfg,
-	}
+	log.Info().Str("mw-id", TracingHandlerId).Interface("cfg", tcfg).Msg(semLogContext + " handler loaded config")
+
+	return &TracingHandler{config: &tcfg}, nil
 }
 
 func (t *TracingHandler) GetKind() string {
