@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-gin/middleware/promutil"
 	"github.com/gin-gonic/gin"
+	"github.com/mitchellh/mapstructure"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/rs/zerolog/log"
 	"reflect"
@@ -15,25 +16,43 @@ type PromHttpMetricsHandler struct {
 	collectors []promutil.MetricInfo
 }
 
-func NewPromHttpMetricsHandler(cfg interface{}) MiddlewareHandler {
-	var tcfg *PromHttpMetricsHandlerConfig
-	var ok bool
+func MustNewPromHttpMetricsHandler(cfg interface{}) MiddlewareHandler {
 
-	if cfg == nil || reflect.ValueOf(cfg).IsNil() {
-		tcfg = &DefaultPromHttpMetricsHandlerConfig
-	} else {
-		if tcfg, ok = cfg.(*PromHttpMetricsHandlerConfig); !ok {
-			tcfg = &DefaultPromHttpMetricsHandlerConfig
+	const semLogContext = "must-new-metrics-handler"
+	h, err := NewPromHttpMetricsHandler(cfg)
+	if err != nil {
+		log.Fatal().Err(err).Msg(semLogContext)
+	}
+
+	return h
+}
+
+func NewPromHttpMetricsHandler(cfg interface{}) (MiddlewareHandler, error) {
+	const semLogContext = "new-metrics-handler"
+	tcfg := DefaultPromHttpMetricsHandlerConfig
+
+	if cfg != nil && !reflect.ValueOf(cfg).IsNil() {
+		if mapCfg, ok := cfg.(HandlerConfig); ok {
+			err := mapstructure.Decode(mapCfg, &tcfg)
+			if err != nil {
+				return nil, err
+			}
+		} else {
+			log.Warn().Msg(semLogContext + " unmarshal issue for tracing handler config")
 		}
+	} else {
+		log.Info().Str("mw-id", MetricsHandlerId).Msg(semLogContext + " config null...reverting to default values")
 	}
 
 	if tcfg.Namespace == "" || tcfg.Subsystem == "" {
-		tcfg = &DefaultMetricsConfig
+		tcfg = DefaultMetricsConfig
 	} else {
 		if len(tcfg.Collectors) == 0 {
 			tcfg.Collectors = DefaultMetricsConfig.Collectors
 		}
 	}
+
+	log.Info().Str("mw-id", MetricsHandlerId).Interface("cfg", tcfg).Msg(semLogContext + " handler loaded config")
 
 	collectors := make([]promutil.MetricInfo, 0)
 
@@ -45,10 +64,7 @@ func NewPromHttpMetricsHandler(cfg interface{}) MiddlewareHandler {
 		}
 	}
 
-	return &PromHttpMetricsHandler{
-		config:     tcfg,
-		collectors: collectors,
-	}
+	return &PromHttpMetricsHandler{config: &tcfg, collectors: collectors}, nil
 }
 
 func (h *PromHttpMetricsHandler) GetKind() string {

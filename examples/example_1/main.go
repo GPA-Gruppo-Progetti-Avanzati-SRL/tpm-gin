@@ -27,8 +27,8 @@ func main() {
 
 	r := gin.New()
 	r.Use(ginzerolog.Logger("gin"),
-		middleware.NewTracingHandler(middleware.DefaultTracingHandlerConfig).HandleFunc(),
-		middleware.NewErrorHandler(middleware.DefaultErrorHandlerConfig).HandleFunc())
+		middleware.MustNewTracingHandler(middleware.DefaultTracingHandlerConfig).HandleFunc(),
+		middleware.MustNewErrorHandler(middleware.DefaultErrorHandlerConfig).HandleFunc())
 
 	// if the prefixes match it takes the first... apparently....
 	r.Use(static.Serve("/static2", static.LocalFile("/Users/marioa.imperato/projects/tpm/tpm-gin/examples/example_1", true)))

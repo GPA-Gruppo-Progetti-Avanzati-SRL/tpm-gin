@@ -30,8 +30,9 @@ func main() {
 		httpsrv.WithListenPort(8080),
 		httpsrv.WithShutdownTimeout(time.Duration(5)*time.Second),
 		httpsrv.WithContextPath("/api"),
-		httpsrv.WithMiddlewareHandlers(middleware.NewTracingHandler(middleware.DefaultTracingHandlerConfig).HandleFunc(),
-			middleware.NewErrorHandler(middleware.DefaultErrorHandlerConfig).HandleFunc()))
+		httpsrv.WithMiddlewareHandlers(
+			middleware.MustNewTracingHandler(middleware.DefaultTracingHandlerConfig).HandleFunc(),
+			middleware.MustNewErrorHandler(middleware.DefaultErrorHandlerConfig).HandleFunc()))
 
 	if err != nil {
 		log.Fatal().Err(err).Send()

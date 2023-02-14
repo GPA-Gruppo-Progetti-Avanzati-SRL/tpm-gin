@@ -3,6 +3,7 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	gonanoid "github.com/matoous/go-nanoid"
+	"github.com/mitchellh/mapstructure"
 	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/ext"
 	"github.com/rs/zerolog/log"
@@ -14,21 +15,38 @@ type ErrorHandler struct {
 	config *ErrorHandlerConfig
 }
 
-func NewErrorHandler(cfg interface{}) MiddlewareHandler {
-	var tcfg *ErrorHandlerConfig
-	var ok bool
+func MustNewErrorHandler(cfg interface{}) MiddlewareHandler {
 
-	if cfg == nil || reflect.ValueOf(cfg).IsNil() {
-		tcfg = &DefaultErrorHandlerConfig
-	} else {
-		if tcfg, ok = cfg.(*ErrorHandlerConfig); !ok {
-			tcfg = &DefaultErrorHandlerConfig
+	const semLogContext = "must-new-error-handler"
+	h, err := NewErrorHandler(cfg)
+	if err != nil {
+		log.Fatal().Err(err).Msg(semLogContext)
+	}
+
+	return h
+}
+
+func NewErrorHandler(cfg interface{}) (MiddlewareHandler, error) {
+
+	const semLogContext = "new-error-handler"
+
+	tcfg := DefaultErrorHandlerConfig
+	if cfg != nil && !reflect.ValueOf(cfg).IsNil() {
+		if mapCfg, ok := cfg.(HandlerConfig); ok {
+			err := mapstructure.Decode(mapCfg, &tcfg)
+			if err != nil {
+				return nil, err
+			}
+		} else {
+			log.Warn().Msg(semLogContext + " unmarshal issue for error handler config")
 		}
+	} else {
+		log.Info().Str("mw-id", ErrorHandlerId).Msg(semLogContext + " config null...reverting to default values")
 	}
 
-	return &ErrorHandler{
-		config: tcfg,
-	}
+	log.Info().Str("mw-id", ErrorHandlerId).Interface("cfg", tcfg).Msg(semLogContext + " handler loaded config")
+
+	return &ErrorHandler{config: &tcfg}, nil
 }
 
 func (h *ErrorHandler) GetKind() string {

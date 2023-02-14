@@ -21,10 +21,13 @@ config:
     mw-use:
       - gin-mw-metrics
       - gin-mw-tracing
+      - gin-mw-har-tracing
       - gin-mw-error
 
   mw-handler-registry:
     gin-mw-metrics:
+#      namespace: example
+#      subsystem: "08"
     gin-mw-tracing:
       tags:
         - name: request.id
@@ -32,13 +35,13 @@ config:
           value: requestId
     gin-mw-error:
       with-info: true
-      alphabet: 0123456789
+#      alphabet: "0123456789"
       span-tag: error.id
       header: x-errid
       status-code-policy:
         policy-mode: if-unlisted
         status-codes:
           - from: 200
-            to: 299
+            to: 399
 
 
